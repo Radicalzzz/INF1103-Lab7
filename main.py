@@ -49,6 +49,7 @@ def add_product(inventory):
     quantity = int(input("Enter the product quantity: "))
     if quantity < 0:
         raise ValueError("Quantity cannot be negative.")
+    
     # Placeholder for generating a unique product ID
     number = 1
 
@@ -71,8 +72,6 @@ def update_stock(inventory):
         return
 
     new_stock = int(input(f"Enter the new stock quantity for '{product.get_product_name()}': "))
-    if new_stock < 0:
-        raise ValueError("Stock quantity cannot be negative.")
 
     product.update_stock(new_stock)
     save_inventory(inventory)

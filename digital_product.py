@@ -12,6 +12,9 @@ class DigitalProduct(Product):
         super().display_information()
         print(f"Download Size: {self.__download_size} MB")
 
+    def get_fulfilment_info(self):
+        return "This product is delivered digitally."
+
 # Only run the following code if this script is executed directly (not imported)
 if __name__ == "__main__":
     digital_product1 = DigitalProduct("P009", "E-book", 15.00, 100, 5)

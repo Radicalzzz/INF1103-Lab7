@@ -12,6 +12,9 @@ class PhysicalProduct(Product):
         super().display_information()
         print(f"Weight: {self.__weight} kg")
 
+    def get_fulfilment_info(self):
+        return "This product requires physical shipping."
+
 # Only run the following code if this script is executed directly (not imported)
 if __name__ == "__main__":
     physical_product1 = PhysicalProduct("P008", "Smartphone", 800.00, 30, 0.2)
