@@ -1,0 +1,18 @@
+from product import Product
+
+class PhysicalProduct(Product):
+    def __init__(self, product_id, name, price, stock, weight):
+        super().__init__(product_id, name, price, stock)
+        self.__weight = weight
+
+    def get_weight(self):
+        return self.__weight
+
+    def display_information(self):
+        super().display_information()
+        print(f"Weight: {self.__weight} kg")
+
+# Only run the following code if this script is executed directly (not imported)
+if __name__ == "__main__":
+    physical_product1 = PhysicalProduct("P008", "Smartphone", 800.00, 30, 0.2)
+    physical_product1.display_information()
