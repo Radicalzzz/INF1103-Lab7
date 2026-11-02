@@ -15,3 +15,5 @@ try:
     product = Product("P003", "Generic Product", 19.99, 20)
 except TypeError as e:
     print("Error:", e)
+
+print(f"Shipping cost for {keyboard.get_product_name()}: ${keyboard.calculate_shipping_cost():.2f}")
