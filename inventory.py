@@ -25,10 +25,14 @@ class Inventory:
         print("\nCurrent Inventory:")
         print("-------------------------------------------------------")
 
-        for product in self.__products:
+        for index, product in enumerate(self.__products):
+            if index > 0:
+                print()
+
             product.display_information()
             print(product.get_fulfilment_info())
-            print()
+            if isinstance(product, PhysicalProduct):
+                print(f"Shipping Cost: ${product.calculate_shipping_cost():.2f}")
 
         print("-------------------------------------------------------")
 

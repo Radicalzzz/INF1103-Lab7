@@ -1,5 +1,5 @@
-from physical_product import PhysicalProduct
-from digital_product import DigitalProduct
+from physicalproduct import PhysicalProduct
+from digitalproduct import DigitalProduct
 from product import Product
 
 keyboard = PhysicalProduct("P001", "Keyboard", 29.99, 50, 0.5)

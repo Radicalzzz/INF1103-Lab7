@@ -14,5 +14,13 @@
         "stock": 5,
         "type": "digital",
         "download_size": 100.0
+    },
+    {
+        "id": "P003",
+        "name": "MacBook",
+        "price": 10000.0,
+        "stock": 10,
+        "type": "physical",
+        "weight": 50.0
     }
 ]
