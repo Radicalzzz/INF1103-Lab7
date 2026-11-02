@@ -1,69 +1,6 @@
-import json
-
-from product import Product
 from inventory import Inventory
-from physical_product import PhysicalProduct
-from digital_product import DigitalProduct
-
-def load_inventory():
-    inventory = Inventory()
-
-    try:
-        with open("inventory.json", "r") as file:
-            data = json.load(file)
-    except FileNotFoundError:
-        return inventory        
-
-    for product_data in data:
-        if product_data["type"] == "physical":
-            product = PhysicalProduct(
-                product_data["id"],
-                product_data["name"],
-                product_data["price"],
-                product_data["stock"],
-                product_data["weight"]
-            )
-        elif product_data["type"] == "digital":
-            product = DigitalProduct(
-                product_data["id"],
-                product_data["name"],
-                product_data["price"],
-                product_data["stock"],
-                product_data["download_size"]
-            )
-        else:
-            raise ValueError(f"Unsupported product type: {product_data['type']}")
-        
-        inventory.add_product(product)
-        
-    return inventory
-
-def save_inventory(inventory):
-    data = []
-
-    for product in inventory.get_products():
-        product_data = {
-            "id": product.get_product_id(),
-            "name": product.get_product_name(),
-            "price": product.get_price(),
-            "stock": product.get_stock()
-        }
-
-        if isinstance(product, PhysicalProduct):
-            product_data["type"] = "physical"
-            product_data["weight"] = product.get_weight()
-
-        elif isinstance(product, DigitalProduct):
-            product_data["type"] = "digital"
-            product_data["download_size"] = product.get_download_size()
-
-        else:
-            raise ValueError("Unsupported product type.")
-        
-        data.append(product_data)
-
-    with open("inventory.json", "w") as file:
-        json.dump(data, file, indent=4)
+from physicalproduct import PhysicalProduct
+from digitalproduct import DigitalProduct
 
 def add_product(inventory):
 
@@ -107,7 +44,7 @@ def add_product(inventory):
         product = DigitalProduct(product_id, product_name, price, quantity, download_size)
     
     inventory.add_product(product)
-    save_inventory(inventory)
+    inventory.save_inventory()
 
     print(f"Product '{product_name}' added successfully with ID: {product_id}")
 
@@ -122,7 +59,7 @@ def update_stock(inventory):
     new_stock = int(input(f"Enter the new stock quantity for '{product.get_product_name()}': "))
 
     product.update_stock(new_stock)
-    save_inventory(inventory)
+    inventory.save_inventory()
 
     print(f"Stock for product '{product.get_product_name()}' updated to {new_stock}.")
 
@@ -138,7 +75,8 @@ def search_product(inventory):
         product.display_information()
 
 def main():
-    inventory = load_inventory()
+    inventory = Inventory()
+    inventory.load_inventory()
 
     while True:
         print("\n============================")
@@ -163,10 +101,10 @@ def main():
             elif choice == "4":
                 search_product(inventory)
             elif choice == "5":
-                save_inventory(inventory)
+                inventory.save_inventory()
                 print("\nInventory saved successfully.")
             elif choice == "6":
-                save_inventory(inventory)
+                inventory.save_inventory()
                 print("\nInventory saved successfully.")
                 print("Thank you for using Inventory Management System.")
                 break

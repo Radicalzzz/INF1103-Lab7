@@ -3,7 +3,7 @@
         "id": "P001",
         "name": "Computer",
         "price": 1000.0,
-        "stock": 100,
+        "stock": 10,
         "type": "physical",
         "weight": 35.0
     },

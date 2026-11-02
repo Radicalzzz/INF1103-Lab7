@@ -1,4 +1,8 @@
+import json
+
 from product import Product
+from physicalproduct import PhysicalProduct
+from digitalproduct import DigitalProduct
 
 class Inventory:
     def __init__(self):
@@ -30,6 +34,70 @@ class Inventory:
 
     def get_products(self):
         return self.__products.copy()
+
+    def save_inventory(self):
+        data = []
+
+        for product in self.__products:
+            product_data = {
+                "id": product.get_product_id(),
+                "name": product.get_product_name(),
+                "price": product.get_price(),
+                "stock": product.get_stock()
+            }
+
+            if isinstance(product, PhysicalProduct):
+                product_data["type"] = "physical"
+                product_data["weight"] = product.get_weight()
+
+            elif isinstance(product, DigitalProduct):
+                product_data["type"] = "digital"
+                product_data["download_size"] = product.get_download_size()
+
+            else:
+                raise ValueError(f"Unsupported product type: {type(product)}")
+
+            data.append(product_data)
+
+        with open("inventory.json", "w") as file:
+            json.dump(data, file, indent=4)
+
+    def load_inventory(self):
+        try:
+            with open("inventory.json", "r") as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            return inventory
+
+        loaded_products = []        
+
+        for product_data in data:
+            product_type = product_data.get("type")
+
+            if product_type == "physical":
+                product = PhysicalProduct(
+                    product_data["id"],
+                    product_data["name"],
+                    product_data["price"],
+                    product_data["stock"],
+                    product_data["weight"]
+                )
+
+            elif product_type == "digital":
+                product = DigitalProduct(
+                    product_data["id"],
+                    product_data["name"],
+                    product_data["price"],
+                    product_data["stock"],
+                    product_data["download_size"]
+                )
+
+            else:
+                raise ValueError(f"Unsupported product type: {product_type}")
+            
+            loaded_products.append(product)
+            
+        self.__products = loaded_products
 
 # Only run the following code if this script is executed directly (not imported)
 if __name__ == "__main__":
