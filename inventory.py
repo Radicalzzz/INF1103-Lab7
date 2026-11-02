@@ -23,6 +23,8 @@ class Inventory:
 
         for product in self.__products:
             product.display_information()
+            print(product.get_fulfilment_info())
+            print()
 
         print("-------------------------------------------------------")
 

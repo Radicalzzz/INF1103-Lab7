@@ -1,44 +1,18 @@
 [
     {
         "id": "P001",
-        "name": "Laptop",
-        "price": 1200.0,
-        "stock": 15
+        "name": "Computer",
+        "price": 1000.0,
+        "stock": 100,
+        "type": "physical",
+        "weight": 35.0
     },
     {
         "id": "P002",
-        "name": "Mouse",
-        "price": 25.5,
-        "stock": 40
-    },
-    {
-        "id": "P003",
-        "name": "Keyboard",
-        "price": 45.0,
-        "stock": 25
-    },
-    {
-        "id": "P004",
-        "name": "IPad",
-        "price": 1500.0,
-        "stock": 1000
-    },
-    {
-        "id": "P005",
-        "name": "Tissue",
-        "price": 1.0,
-        "stock": 250
-    },
-    {
-        "id": "P006",
-        "name": "Laptop",
-        "price": 1000.0,
-        "stock": 10000
-    },
-    {
-        "id": "P007",
-        "name": "Tissue Paper",
-        "price": 1000.0,
-        "stock": 1000
+        "name": "Book",
+        "price": 10.0,
+        "stock": 5,
+        "type": "digital",
+        "download_size": 100.0
     }
 ]

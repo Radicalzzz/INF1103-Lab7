@@ -2,6 +2,8 @@ import json
 
 from product import Product
 from inventory import Inventory
+from physical_product import PhysicalProduct
+from digital_product import DigitalProduct
 
 def load_inventory():
     inventory = Inventory()
@@ -13,13 +15,27 @@ def load_inventory():
         return inventory        
 
     for product_data in data:
-        product = Product(
-            product_data["id"],
-            product_data["name"],
-            product_data["price"],
-            product_data["stock"]
-        )
+        if product_data["type"] == "physical":
+            product = PhysicalProduct(
+                product_data["id"],
+                product_data["name"],
+                product_data["price"],
+                product_data["stock"],
+                product_data["weight"]
+            )
+        elif product_data["type"] == "digital":
+            product = DigitalProduct(
+                product_data["id"],
+                product_data["name"],
+                product_data["price"],
+                product_data["stock"],
+                product_data["download_size"]
+            )
+        else:
+            raise ValueError(f"Unsupported product type: {product_data['type']}")
+        
         inventory.add_product(product)
+        
     return inventory
 
 def save_inventory(inventory):
@@ -32,12 +48,32 @@ def save_inventory(inventory):
             "price": product.get_price(),
             "stock": product.get_stock()
         }
+
+        if isinstance(product, PhysicalProduct):
+            product_data["type"] = "physical"
+            product_data["weight"] = product.get_weight()
+
+        elif isinstance(product, DigitalProduct):
+            product_data["type"] = "digital"
+            product_data["download_size"] = product.get_download_size()
+
+        else:
+            raise ValueError("Unsupported product type.")
+        
         data.append(product_data)
 
     with open("inventory.json", "w") as file:
         json.dump(data, file, indent=4)
 
 def add_product(inventory):
+
+    print("\n1. Physical Product")
+    print("2. Digital Product")
+    product_type = input("Enter the product type (1 or 2): ").strip()
+
+    if product_type not in ["1", "2"]:
+        raise ValueError("Invalid product type. Please enter 1 or 2.")
+
     product_name = input("Enter the product name: ").strip()
     if not product_name:
         raise ValueError("Product name cannot be empty.")
@@ -57,7 +93,19 @@ def add_product(inventory):
         number += 1
 
     product_id = f"P{number:03d}"
-    product = Product(product_id, product_name, price, quantity)
+
+    if product_type == "1":
+        weight = float(input("Enter the product weight in kg: "))
+        if weight < 0:
+            raise ValueError("Weight cannot be negative.")
+        product = PhysicalProduct(product_id, product_name, price, quantity, weight)
+
+    elif product_type == "2":
+        download_size = float(input("Enter the download size in MB: "))
+        if download_size < 0:
+            raise ValueError("Download size cannot be negative.")
+        product = DigitalProduct(product_id, product_name, price, quantity, download_size)
+    
     inventory.add_product(product)
     save_inventory(inventory)
 
